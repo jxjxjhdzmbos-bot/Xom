@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">XO Game</string>
+    <string name="play_vs_ai">Play vs AI</string>
+    <string name="play_local">Local Multiplayer</string>
+    <string name="player_x">Player X</string>
+    <string name="player_o">Player O</string>
+    <string name="player_x_wins">Player X Wins!</string>
+    <string name="player_o_wins">Player O Wins!</string>
+    <string name="draw">It\'s a Draw!</string>
+    <string name="play_again">Play Again</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="turn">\'s Turn</string>
+    <string name="ai_thinking">AI is thinking...</string>
+</resources>
