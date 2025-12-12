@@ -1,14 +1,21 @@
 package com.xo.game;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class GameActivity extends AppCompatActivity {
+
+    private static final int[][] WIN_PATTERNS = {
+        {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+        {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+        {0, 4, 8}, {2, 4, 6}
+    };
 
     private Button[] buttons = new Button[9];
     private TextView tvStatus;
@@ -81,7 +88,7 @@ public class GameActivity extends AppCompatActivity {
             tvStatus.setText(R.string.ai_thinking);
             disableAllButtons();
             
-            new Handler().postDelayed(new Runnable() {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     aiMove();
@@ -97,8 +104,8 @@ public class GameActivity extends AppCompatActivity {
         board[index] = player;
         buttons[index].setText(player);
         buttons[index].setTextColor(isPlayerXTurn ? 
-            getResources().getColor(R.color.player_x) : 
-            getResources().getColor(R.color.player_o));
+            ContextCompat.getColor(this, R.color.player_x) : 
+            ContextCompat.getColor(this, R.color.player_o));
 
         if (checkWinner()) {
             gameOver = true;
@@ -180,13 +187,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private String evaluateBoard() {
-        int[][] winPatterns = {
-            {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-            {0, 4, 8}, {2, 4, 6}
-        };
-
-        for (int[] pattern : winPatterns) {
+        for (int[] pattern : WIN_PATTERNS) {
             String first = board[pattern[0]];
             if (first != null && 
                 first.equals(board[pattern[1]]) && 
@@ -207,13 +208,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private boolean checkWinner() {
-        int[][] winPatterns = {
-            {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-            {0, 4, 8}, {2, 4, 6}
-        };
-
-        for (int[] pattern : winPatterns) {
+        for (int[] pattern : WIN_PATTERNS) {
             String first = board[pattern[0]];
             if (first != null && 
                 first.equals(board[pattern[1]]) && 
@@ -226,20 +221,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void highlightWinningCells() {
-        int[][] winPatterns = {
-            {0, 1, 2}, {3, 4, 5}, {6, 7, 8},
-            {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
-            {0, 4, 8}, {2, 4, 6}
-        };
-
-        for (int[] pattern : winPatterns) {
+        for (int[] pattern : WIN_PATTERNS) {
             String first = board[pattern[0]];
             if (first != null && 
                 first.equals(board[pattern[1]]) && 
                 first.equals(board[pattern[2]])) {
-                buttons[pattern[0]].setBackgroundColor(getResources().getColor(R.color.accent));
-                buttons[pattern[1]].setBackgroundColor(getResources().getColor(R.color.accent));
-                buttons[pattern[2]].setBackgroundColor(getResources().getColor(R.color.accent));
+                int accentColor = ContextCompat.getColor(this, R.color.accent);
+                buttons[pattern[0]].setBackgroundColor(accentColor);
+                buttons[pattern[1]].setBackgroundColor(accentColor);
+                buttons[pattern[2]].setBackgroundColor(accentColor);
                 break;
             }
         }
